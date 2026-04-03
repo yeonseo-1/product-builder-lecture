@@ -138,7 +138,9 @@ h1 {
 
 .text-content h2 {
   margin-top: 0;
+  margin-bottom: 24px;
   color: var(--accent);
+  font-size: 1.75rem;
 }
 
 .text-content h3 {
@@ -146,6 +148,8 @@ h1 {
   margin-bottom: 12px;
   font-size: 1.25rem;
   color: var(--text);
+  border-left: 4px solid var(--accent);
+  padding-left: 12px;
 }
 
 .text-content p {
@@ -153,25 +157,35 @@ h1 {
   color: var(--muted);
 }
 
+.text-content ul {
+  padding-left: 20px;
+  margin-bottom: 24px;
+}
+
+.text-content li {
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
 /* Footer */
 .app-footer {
   margin-top: 80px;
-  padding: 48px 0;
+  padding: 64px 0 48px;
   border-top: 1px solid var(--line);
-  color: var(--muted);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 48px;
+  margin-bottom: 64px;
 }
 
 .footer-section h4 {
   color: var(--text);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   font-size: 1rem;
+  font-weight: 700;
 }
 
 .footer-section ul {
@@ -180,7 +194,7 @@ h1 {
 }
 
 .footer-section li {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .footer-section a {
@@ -197,8 +211,9 @@ h1 {
 .footer-bottom {
   text-align: center;
   font-size: 0.85rem;
+  color: var(--muted);
   border-top: 1px solid var(--line);
-  padding-top: 24px;
+  padding-top: 32px;
 }
 
 /* Modal */
@@ -210,8 +225,8 @@ h1 {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
 }
 
 .modal-content {
@@ -219,19 +234,32 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(600px, 90%);
-  max-height: 80vh;
+  width: min(700px, 92%);
+  max-height: 85vh;
   overflow-y: auto;
+  padding: 48px;
 }
 
 .close-modal {
   position: absolute;
   right: 24px;
-  top: 16px;
-  font-size: 28px;
-  font-weight: bold;
+  top: 24px;
+  font-size: 32px;
+  font-weight: 300;
   cursor: pointer;
   color: var(--muted);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.close-modal:hover {
+  background: var(--button-ghost);
+  color: var(--text);
 }
 
 @keyframes fadeIn {
