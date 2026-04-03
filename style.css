@@ -130,6 +130,29 @@ h1 {
   color: var(--text);
 }
 
+/* Text Content Styles */
+.text-content {
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.text-content h2 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.text-content h3 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.text-content p {
+  margin-bottom: 20px;
+  color: var(--muted);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
