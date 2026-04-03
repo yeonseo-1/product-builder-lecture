@@ -11,99 +11,107 @@
     <section class="hero">
       <div class="hero-topbar">
         <p class="eyebrow">LOTTO LAB 6/45</p>
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 전환">화이트모드</button>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 전환">다크모드</button>
       </div>
       <h1>당첨을 보장하진 않지만, 번호 뽑기는 제대로.</h1>
       <p class="hero-copy">
-        한국 로또 6/45 기준으로 번호를 무작위 생성하고, 제외 번호를 반영하고,
-        간단한 시뮬레이션으로 기대 확률을 확인할 수 있습니다.
+        한국 로또 6/45 기준으로 번호를 무작위 생성하고, 시뮬레이션으로 기대 확률을 확인하세요.
       </p>
     </section>
 
-    <section class="panel controls">
-      <div class="control-group">
-        <label for="excludedNumbers">제외 번호</label>
-        <input
-          id="excludedNumbers"
-          type="text"
-          inputmode="numeric"
-          placeholder="예: 3, 7, 18"
-        />
-        <p class="hint">쉼표로 구분해서 입력하세요. 1부터 45까지만 허용됩니다.</p>
-      </div>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-button active" data-tab="generator">번호 생성</button>
+      <button class="tab-button" data-tab="inquiry">제휴 문의</button>
+      <button class="tab-button" data-tab="comments">댓글 소통</button>
+    </nav>
 
-      <div class="control-row">
+    <!-- Tab Contents -->
+    <div id="generator" class="tab-content active">
+      <section class="panel controls">
         <div class="control-group">
-          <label for="ticketCount">생성할 조합 수</label>
-          <input id="ticketCount" type="number" min="1" max="10" value="5" />
+          <label for="excludedNumbers">제외 번호</label>
+          <input id="excludedNumbers" type="text" inputmode="numeric" placeholder="예: 3, 7, 18" />
+          <p class="hint">쉼표로 구분해서 입력하세요. 1부터 45까지만 허용됩니다.</p>
         </div>
 
-        <div class="control-group">
-          <label for="simulationCount">시뮬레이션 횟수</label>
-          <input id="simulationCount" type="number" min="100" step="100" value="10000" />
+        <div class="control-row">
+          <div class="control-group">
+            <label for="ticketCount">생성할 조합 수</label>
+            <input id="ticketCount" type="number" min="1" max="10" value="5" />
+          </div>
+
+          <div class="control-group">
+            <label for="simulationCount">시뮬레이션 횟수</label>
+            <input id="simulationCount" type="number" min="100" step="100" value="10000" />
+          </div>
         </div>
-      </div>
 
-      <div class="button-row">
-        <button id="generateButton" class="primary" type="button">번호 생성</button>
-        <button id="simulateButton" class="secondary" type="button">확률 시뮬레이션</button>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>추천 조합</h2>
-        <p id="selectionSummary" class="subtle"></p>
-      </div>
-      <div id="tickets" class="ticket-grid"></div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>시뮬레이션 결과</h2>
-        <p class="subtle">생성된 첫 번째 조합을 기준으로 무작위 추첨과 비교합니다.</p>
-      </div>
-      <div id="simulationResult" class="simulation-card empty">
-        아직 시뮬레이션을 실행하지 않았습니다.
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>댓글</h2>
-        <p class="subtle">자유롭게 의견을 남겨주세요.</p>
-      </div>
-      <div id="disqus_thread"></div>
-      <script>
-          (function() {
-          var d = document, s = d.createElement('script');
-          s.src = 'https://yeon-2.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-          })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>제휴 문의</h2>
-        <p class="subtle">협업이나 서비스 개선 제안은 언제든 환영합니다.</p>
-      </div>
-      <form action="https://formspree.io/f/meeplbor" method="POST" class="contact-form">
-        <div class="control-group">
-          <label for="email">이메일 주소</label>
-          <input type="email" name="email" id="email" placeholder="example@email.com" required>
-        </div>
-        <div class="control-group">
-          <label for="message">문의 내용</label>
-          <textarea name="message" id="message" rows="5" placeholder="제휴 제안 또는 궁금하신 점을 입력해주세요." required></textarea>
-        </div>
         <div class="button-row">
-          <button type="submit" class="primary">문의하기</button>
+          <button id="generateButton" class="primary" type="button">번호 생성</button>
+          <button id="simulateButton" class="secondary" type="button">확률 시뮬레이션</button>
         </div>
-      </form>
-    </section>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h2>추천 조합</h2>
+          <p id="selectionSummary" class="subtle"></p>
+        </div>
+        <div id="tickets" class="ticket-grid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h2>시뮬레이션 결과</h2>
+          <p class="subtle">생성된 첫 번째 조합 기준 결과입니다.</p>
+        </div>
+        <div id="simulationResult" class="simulation-card empty">
+          아직 시뮬레이션을 실행하지 않았습니다.
+        </div>
+      </section>
+    </div>
+
+    <div id="inquiry" class="tab-content">
+      <section class="panel">
+        <div class="section-head">
+          <h2>제휴 문의</h2>
+          <p class="subtle">협업이나 서비스 개선 제안은 언제든 환영합니다.</p>
+        </div>
+        <form action="https://formspree.io/f/meeplbor" method="POST" class="contact-form">
+          <div class="control-group">
+            <label for="email">이메일 주소</label>
+            <input type="email" name="email" id="email" placeholder="example@email.com" required>
+          </div>
+          <div class="control-group">
+            <label for="message">문의 내용</label>
+            <textarea name="message" id="message" rows="8" placeholder="제휴 제안 또는 궁금하신 점을 입력해주세요." required></textarea>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">문의하기</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div id="comments" class="tab-content">
+      <section class="panel">
+        <div class="section-head">
+          <h2>댓글</h2>
+          <p class="subtle">자유롭게 의견을 남겨주세요.</p>
+        </div>
+        <div id="disqus_thread"></div>
+        <script>
+            (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://yeon-2.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </section>
+    </div>
   </main>
 
   <script defer type="text/javascript" src="/main.js"></script>
