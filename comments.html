@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lotto Lab Community</title>
+  <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-topbar">
+        <p class="eyebrow">COMMUNITY</p>
+        <div class="button-row" style="margin: 0; display: flex; align-items: center;">
+          <a href="/" class="secondary" style="text-decoration: none; padding: 12px 20px; display: inline-flex; border-radius: 999px; font-weight: 700; font-size: 0.9rem; align-items: center; background: var(--button-ghost); color: var(--text);">앱으로 돌아가기</a>
+          <button id="themeToggle" class="theme-toggle" type="button" style="margin-left: 8px;">다크모드</button>
+        </div>
+      </div>
+      <h1>자유로운 소통 공간.</h1>
+      <p class="hero-copy">
+        로또 번호 공유, 당첨 후기, 서비스 제안 등 자유롭게 이야기를 나누어 보세요.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div id="disqus_thread"></div>
+      <script>
+          (function() {
+          var d = document, s = d.createElement('script');
+          s.src = 'https://yeon-2.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  </main>
+
+  <script>
+    const THEME_STORAGE_KEY = 'lotto-lab-theme';
+    const themeToggleButton = document.querySelector('#themeToggle');
+
+    function applyTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      themeToggleButton.textContent = theme === 'dark' ? '화이트모드' : '다크모드';
+    }
+
+    themeToggleButton.addEventListener('click', () => {
+      const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+      localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    });
+
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+    applyTheme(savedTheme);
+  </script>
+</body>
+</html>
