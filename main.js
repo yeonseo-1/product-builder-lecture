@@ -2,6 +2,7 @@ var LOTTO_MIN = 1;
 var LOTTO_MAX = 45;
 var PICK_COUNT = 6;
 var THEME_STORAGE_KEY = 'lotto-lab-theme';
+var NOTE_STORAGE_KEY = 'lotto-lab-strategy-note';
 
 var excludedNumbersInput = document.querySelector('#excludedNumbers');
 var ticketCountInput = document.querySelector('#ticketCount');
@@ -10,7 +11,6 @@ var generateButton = document.querySelector('#generateButton');
 var simulateButton = document.querySelector('#simulateButton');
 var themeToggleButton = document.querySelector('#themeToggle');
 var ticketsElement = document.querySelector('#tickets');
-var selectionSummaryElement = document.querySelector('#selectionSummary');
 var simulationResultElement = document.querySelector('#simulationResult');
 
 var currentTickets = [];
@@ -18,160 +18,151 @@ var currentTickets = [];
 // Tab Logic
 var tabButtons = document.querySelectorAll('.tab-button');
 var tabContents = document.querySelectorAll('.tab-content');
+var footerLinks = document.querySelectorAll('.footer-link');
+
+function switchTab(tabId) {
+  tabButtons.forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+  });
+  tabContents.forEach(function(content) {
+    content.classList.toggle('active', content.id === tabId);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 tabButtons.forEach(function(button) {
   button.addEventListener('click', function() {
-    var tabId = button.getAttribute('data-tab');
-    
-    tabButtons.forEach(function(btn) { btn.classList.remove('active'); });
-    tabContents.forEach(function(content) { content.classList.remove('active'); });
-    
-    button.classList.add('active');
-    document.getElementById(tabId).classList.add('active');
+    switchTab(button.getAttribute('data-tab'));
   });
 });
 
+footerLinks.forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    switchTab(link.getAttribute('data-tab'));
+  });
+});
+
+// Strategy Note Logic
+var strategyNote = document.querySelector('#strategyNote');
+var saveNoteButton = document.querySelector('#saveNoteButton');
+var saveStatus = document.querySelector('#saveStatus');
+
+saveNoteButton.addEventListener('click', function() {
+  localStorage.setItem(NOTE_STORAGE_KEY, strategyNote.value);
+  saveStatus.style.display = 'inline';
+  setTimeout(function() { saveStatus.style.display = 'none'; }, 2000);
+});
+
+strategyNote.value = localStorage.getItem(NOTE_STORAGE_KEY) || '';
+
+// Modal Logic
+var modal = document.querySelector('#policyModal');
+var modalBody = document.querySelector('#modalBody');
+var closeModal = document.querySelector('.close-modal');
+var openPrivacy = document.querySelector('#openPrivacy');
+var openTerms = document.querySelector('#openTerms');
+
+var policies = {
+  privacy: '<h2>개인정보처리방침</h2><p>Lotto Lab은 사용자의 개인정보를 서버에 저장하지 않습니다. 모든 설정과 메모는 사용자의 브라우저(Local Storage)에만 저장됩니다.</p>',
+  terms: '<h2>이용약관</h2><p>본 서비스는 통계적 데이터를 바탕으로 번호를 생성하며, 실제 당첨 결과를 보장하지 않습니다. 모든 구매 결정은 사용자 본인의 책임입니다.</p>'
+};
+
+openPrivacy.addEventListener('click', function(e) {
+  e.preventDefault();
+  modalBody.innerHTML = policies.privacy;
+  modal.style.display = 'block';
+});
+
+openTerms.addEventListener('click', function(e) {
+  e.preventDefault();
+  modalBody.innerHTML = policies.terms;
+  modal.style.display = 'block';
+});
+
+closeModal.onclick = function() { modal.style.display = 'none'; };
+window.onclick = function(e) { if (e.target == modal) modal.style.display = 'none'; };
+
+// Lotto Logic (Same as before)
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  if (theme === 'dark') {
-    themeToggleButton.textContent = '화이트모드';
-  } else {
-    themeToggleButton.textContent = '다크모드';
-  }
-
-  // Force Disqus to reload its theme
+  themeToggleButton.textContent = theme === 'dark' ? '화이트모드' : '다크모드';
   if (typeof DISQUS !== 'undefined') {
-    setTimeout(function() {
-      DISQUS.reset({
-        reload: true
-      });
-    }, 350);
+    setTimeout(function() { DISQUS.reset({ reload: true }); }, 350);
   }
 }
 
 function initializeTheme() {
   var savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-  var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var nextTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+  var nextTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   applyTheme(nextTheme);
 }
 
 function toggleTheme() {
-  var currentTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
-  var nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  var nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   applyTheme(nextTheme);
   localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
 }
 
 function parseExcludedNumbers() {
   var raw = excludedNumbersInput.value.trim();
-  if (raw === '') return [];
-  var values = raw.split(',').map(function(v) { return Number.parseInt(v.trim(), 10); }).filter(function(v) { return !Number.isNaN(v); });
-  var invalidValue = values.find(function(v) { return v < LOTTO_MIN || v > LOTTO_MAX; });
-  if (invalidValue) throw new Error('제외 번호는 1-45까지만 가능합니다.');
-  return Array.from(new Set(values)).sort(function(a, b) { return a - b; });
+  if (!raw) return [];
+  return Array.from(new Set(raw.split(',').map(v => parseInt(v.trim())).filter(v => !isNaN(v) && v >= 1 && v <= 45))).sort((a,b) => a-b);
 }
 
-function createPool(excludedNumbers) {
-  var excludedSet = new Set(excludedNumbers);
+function generateTickets(count, excluded) {
   var pool = [];
-  for (var i = LOTTO_MIN; i <= LOTTO_MAX; i++) {
-    if (!excludedSet.has(i)) pool.push(i);
-  }
-  if (pool.length < PICK_COUNT) throw new Error('제외 번호가 너무 많습니다.');
-  return pool;
-}
-
-function shuffle(array) {
-  var next = array.slice();
-  for (var i = next.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = next[i];
-    next[i] = next[j];
-    next[j] = temp;
-  }
-  return next;
-}
-
-function generateTicket(pool) {
-  return shuffle(pool).slice(0, PICK_COUNT).sort(function(a, b) { return a - b; });
-}
-
-function generateTickets(count, excludedNumbers) {
-  var pool = createPool(excludedNumbers);
-  var tickets = [];
+  for (var i = 1; i <= 45; i++) if (!excluded.includes(i)) pool.push(i);
+  if (pool.length < 6) throw new Error('제외 번호가 너무 많습니다.');
+  
+  var results = [];
   for (var i = 0; i < count; i++) {
-    tickets.push(generateTicket(pool));
+    var ticket = [];
+    var tempPool = [...pool];
+    for (var j = 0; j < 6; j++) {
+      var idx = Math.floor(Math.random() * tempPool.length);
+      ticket.push(tempPool.splice(idx, 1)[0]);
+    }
+    results.push(ticket.sort((a,b) => a-b));
   }
-  return tickets;
+  return results;
 }
 
-function renderTickets(tickets, excludedNumbers) {
+function renderTickets(tickets) {
   ticketsElement.innerHTML = '';
-  tickets.forEach(function(ticket, index) {
+  tickets.forEach((t, i) => {
     var card = document.createElement('div');
     card.className = 'ticket-card';
-    var title = document.createElement('div');
-    title.className = 'ticket-title';
-    title.textContent = '조합 ' + (index + 1);
-    var balls = document.createElement('div');
-    balls.className = 'ball-row';
-    ticket.forEach(function(num) {
-      var ball = document.createElement('div');
-      ball.className = 'ball band-' + Math.floor((num - 1) / 10);
-      ball.textContent = num;
-      balls.appendChild(ball);
-    });
-    card.appendChild(title);
-    card.appendChild(balls);
+    card.innerHTML = `<div class="ticket-title">조합 ${i+1}</div><div class="ball-row">${t.map(n => `<div class="ball band-${Math.floor((n-1)/10)}">${n}</div>`).join('')}</div>`;
     ticketsElement.appendChild(card);
   });
-  var label = excludedNumbers.length > 0 ? excludedNumbers.join(', ') : '없음';
-  selectionSummaryElement.textContent = '제외 번호: ' + label;
-}
-
-function drawWinningNumbers() {
-  var pool = [];
-  for (var i = LOTTO_MIN; i <= LOTTO_MAX; i++) pool.push(i);
-  return generateTicket(pool);
-}
-
-function countMatches(ticket, winning) {
-  var winningSet = new Set(winning);
-  return ticket.filter(function(n) { return winningSet.has(n); }).length;
 }
 
 function handleGenerate() {
   try {
     var excluded = parseExcludedNumbers();
-    var count = Math.min(Math.max(Number.parseInt(ticketCountInput.value, 10) || 1, 1), 10);
-    currentTickets = generateTickets(count, excluded);
-    renderTickets(currentTickets, excluded);
+    currentTickets = generateTickets(parseInt(ticketCountInput.value) || 5, excluded);
+    renderTickets(currentTickets);
     simulationResultElement.className = 'simulation-card empty';
-    simulationResultElement.textContent = '번호 생성 완료. 시뮬레이션을 실행하세요.';
-  } catch (e) {
+    simulationResultElement.textContent = '번호 생성 완료. 시뮬레이션을 실행해 보세요.';
+  } catch(e) {
     simulationResultElement.className = 'simulation-card error';
     simulationResultElement.textContent = e.message;
   }
 }
 
 function handleSimulate() {
-  try {
-    if (currentTickets.length === 0) handleGenerate();
-    var iterations = Number.parseInt(simulationCountInput.value, 10) || 10000;
-    var ticket = currentTickets[0];
-    var best = 0;
-    for (var i = 0; i < iterations; i++) {
-      best = Math.max(best, countMatches(ticket, drawWinningNumbers()));
-    }
-    simulationResultElement.className = 'simulation-card';
-    simulationResultElement.innerHTML = '<div class="result-head">' + ticket.join(' / ') + '</div>' +
-      '<p>' + iterations.toLocaleString() + '회 시뮬레이션 결과</p>' +
-      '<p>최고 일치 개수: <strong>' + best + '개</strong></p>';
-  } catch (e) {
-    simulationResultElement.className = 'simulation-card error';
-    simulationResultElement.textContent = e.message;
+  if (!currentTickets.length) handleGenerate();
+  var iterations = parseInt(simulationCountInput.value) || 10000;
+  var ticket = currentTickets[0];
+  var best = 0;
+  for (var i = 0; i < iterations; i++) {
+    var win = generateTickets(1, [])[0];
+    var matches = ticket.filter(n => win.includes(n)).length;
+    best = Math.max(best, matches);
   }
+  simulationResultElement.className = 'simulation-card';
+  simulationResultElement.innerHTML = `<div class="result-head">${ticket.join(' / ')}</div><p>${iterations.toLocaleString()}회 가상 추첨 결과</p><p>최고 일치 개수: <strong>${best}개</strong></p>`;
 }
 
 themeToggleButton.addEventListener('click', toggleTheme);

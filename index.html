@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>로또 랩(Lotto Lab) - 스마트한 로또 번호 생성 및 분석 가이드</title>
-  <meta name="description" content="로또 6/45 무작위 번호 생성, 확률 시뮬레이션 및 당첨 확률을 높이는 전략 가이드를 제공합니다.">
+  <title>로또 랩(Lotto Lab) - 스마트한 번호 생성 및 나만의 당첨 전략</title>
+  <meta name="description" content="데이터 기반 로또 번호 생성기, 확률 시뮬레이션 및 나만의 당첨 전략 노트를 통해 스마트하게 로또를 관리하세요.">
   <meta name="google-adsense-account" content="ca-pub-9502335106176584">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9502335106176584"
      crossorigin="anonymous"></script>
@@ -17,112 +17,87 @@
         <p class="eyebrow">LOTTO LAB 6/45</p>
         <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 전환">다크모드</button>
       </div>
-      <h1>당첨 확률을 높이는 데이터 기반의 선택.</h1>
+      <h1>당첨을 위한 나만의 데이터 전략 창고.</h1>
       <p class="hero-copy">
-        단순한 운에 맡기지 마세요. 스마트한 필터링과 시뮬레이션으로 당신만의 전략적인 번호를 조합해 보세요.
+        단순 번호 생성을 넘어, 당신만의 분석 노하우를 기록하고 검증하세요. Lotto Lab이 스마트한 동반자가 되어 드립니다.
       </p>
     </header>
 
-    <!-- Enhanced Navigation -->
+    <!-- Navigation -->
     <nav class="tab-nav">
       <button class="tab-button active" data-tab="generator">번호 생성</button>
+      <button class="tab-button" data-tab="strategy">전략 노트</button>
       <button class="tab-button" data-tab="guide">분석 가이드</button>
-      <button class="tab-button" data-tab="inquiry">제휴/문의</button>
       <button class="tab-button" data-tab="comments">커뮤니티</button>
-      <button class="tab-button" data-tab="policy">운영 정책</button>
     </nav>
 
-    <!-- Tab Content: Generator (Core Service) -->
+    <!-- Tab Content: Generator -->
     <div id="generator" class="tab-content active">
       <section class="panel controls">
         <div class="control-group">
           <label for="excludedNumbers">전략적 제외 번호</label>
-          <input id="excludedNumbers" type="text" inputmode="numeric" placeholder="예: 3, 7, 18 (최근 5주 미출현 번호 등)" />
-          <p class="hint">쉼표로 구분하여 입력하세요. 제외 번호를 활용하면 확률 범위를 좁힐 수 있습니다.</p>
+          <input id="excludedNumbers" type="text" inputmode="numeric" placeholder="예: 3, 7, 18" />
         </div>
-
         <div class="control-row">
           <div class="control-group">
-            <label for="ticketCount">생성 조합 (최대 10개)</label>
+            <label for="ticketCount">생성 조합 수</label>
             <input id="ticketCount" type="number" min="1" max="10" value="5" />
           </div>
           <div class="control-group">
-            <label for="simulationCount">가상 추첨 횟수</label>
+            <label for="simulationCount">시뮬레이션 횟수</label>
             <input id="simulationCount" type="number" min="100" step="100" value="10000" />
           </div>
         </div>
-
         <div class="button-row">
-          <button id="generateButton" class="primary" type="button">분석 번호 생성</button>
-          <button id="simulateButton" class="secondary" type="button">확률 시뮬레이션 실행</button>
+          <button id="generateButton" class="primary" type="button">번호 생성</button>
+          <button id="simulateButton" class="secondary" type="button">확률 시뮬레이션</button>
         </div>
       </section>
 
-      <section class="panel">
-        <div class="section-head">
-          <h2>추천 분석 조합</h2>
-          <p id="selectionSummary" class="subtle"></p>
-        </div>
-        <div id="tickets" class="ticket-grid"></div>
-      </section>
+      <div id="tickets" class="ticket-grid"></div>
 
       <section class="panel">
-        <div class="section-head">
-          <h2>데이터 시뮬레이션 결과</h2>
-          <p class="subtle">생성된 첫 번째 조합을 기반으로 과거 추첨 패턴과 비교 시뮬레이션을 수행합니다.</p>
-        </div>
         <div id="simulationResult" class="simulation-card empty">
-          시뮬레이션을 통해 기대 당첨 가능성을 데이터로 확인해 보세요.
+          시뮬레이션 결과가 이곳에 표시됩니다.
         </div>
       </section>
     </div>
 
-    <!-- Tab Content: Guide (Valuable Content for AdSense) -->
+    <!-- Tab Content: Strategy Note (Unique Content Creation) -->
+    <div id="strategy" class="tab-content">
+      <section class="panel">
+        <div class="section-head">
+          <h2>나만의 당첨 전략 노트</h2>
+          <p class="subtle">오늘의 분석 내용이나 기억하고 싶은 번호 조합을 기록해 두세요. (브라우저에 자동 저장됩니다)</p>
+        </div>
+        <div class="control-group">
+          <textarea id="strategyNote" rows="12" placeholder="예: 이번 주는 10번대 번호가 강세일 것으로 예상함. 제외 번호 5, 12번 적용 시뮬레이션 결과 4등 당첨 확률 상승 확인."></textarea>
+        </div>
+        <div class="button-row">
+          <button id="saveNoteButton" class="primary">노트 저장하기</button>
+          <span id="saveStatus" class="subtle" style="margin-left: 10px; display: none;">저장되었습니다!</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab Content: Guide -->
     <div id="guide" class="tab-content">
       <article class="panel text-content">
-        <h2>로또 당첨 확률을 높이는 3가지 핵심 전략</h2>
-        <p>로또 6/45는 8,145,060분의 1이라는 매우 낮은 확률을 가지고 있지만, 통계학적인 접근을 통해 불필요한 조합을 제거할 수 있습니다.</p>
-        
-        <h3>1. 홀수와 짝수의 균형 (Odd/Even Ratio)</h3>
-        <p>역대 당첨 번호를 분석해보면 홀수와 짝수의 비율이 3:3 또는 2:4, 4:2인 경우가 전체의 80% 이상을 차지합니다. 극단적인 0:6이나 6:0의 조합은 피하는 것이 전략적입니다.</p>
-
-        <h3>2. 총합의 법칙 (Sum Range)</h3>
-        <p>6개 번호의 총합은 대개 100에서 175 사이에서 결정됩니다. Lotto Lab의 생성기는 이 범위를 고려하여 균형 잡힌 조합을 추천합니다.</p>
-
-        <h3>3. 제외 번호 필터링</h3>
-        <p>최근 5주 이상 출현하지 않은 번호(장기 미출현 번호)나 반대로 너무 자주 출현한 번호를 분석하여 전략적으로 제외 목록에 포함하는 것도 좋은 방법입니다.</p>
+        <h2>로또 통계 분석의 기초</h2>
+        <p>무작위 추첨이지만, 장기적인 데이터 패턴을 이해하면 더 나은 선택을 할 수 있습니다.</p>
+        <h3>장기 미출현 번호 추적</h3>
+        <p>최근 10주간 한 번도 나오지 않은 번호들이 다음 추첨에 포함될 확률은 통계적으로 유의미한 패턴을 보입니다.</p>
+        <h3>번호대별 분포도</h3>
+        <p>1번부터 45번까지 각 10단위 번호대(1-10, 11-20...)에서 골고루 번호가 섞여 나오는 비율이 가장 높습니다.</p>
       </article>
-    </div>
-
-    <!-- Tab Content: Inquiry -->
-    <div id="inquiry" class="tab-content">
-      <section class="panel">
-        <div class="section-head">
-          <h2>제휴 및 서비스 문의</h2>
-          <p class="subtle">Lotto Lab은 투명한 데이터 제공을 원칙으로 합니다. 협업 제안을 환영합니다.</p>
-        </div>
-        <form action="https://formspree.io/f/meeplbor" method="POST" class="contact-form">
-          <div class="control-group">
-            <label for="email">답변 받으실 이메일</label>
-            <input type="email" name="email" id="email" placeholder="example@email.com" required>
-          </div>
-          <div class="control-group">
-            <label for="message">문의 상세 내용</label>
-            <textarea name="message" id="message" rows="8" placeholder="서비스 제안 또는 기술 문의 내용을 입력해주세요." required></textarea>
-          </div>
-          <div class="button-row">
-            <button type="submit" class="primary">문의 접수하기</button>
-          </div>
-        </form>
-      </section>
     </div>
 
     <!-- Tab Content: Community -->
     <div id="comments" class="tab-content">
       <section class="panel">
         <div class="section-head">
-          <h2>커뮤니티 및 후기</h2>
-          <p class="subtle">당첨 후기나 번호 공유를 통해 다른 사용자들과 소통해 보세요.</p>
+          <h2>사용자 커뮤니티</h2>
+          <p class="subtle">자유로운 소통과 정보 공유를 위한 공간입니다.</p>
         </div>
         <div id="disqus_thread"></div>
         <script>
@@ -140,23 +115,38 @@
       </section>
     </div>
 
-    <!-- Tab Content: Policy (Trust/Compliance) -->
-    <div id="policy" class="tab-content">
-      <article class="panel text-content">
-        <h2>운영 정책 및 개인정보처리방침</h2>
-        <p>Lotto Lab은 사용자의 개인정보를 소중히 여기며, 투명한 서비스 운영을 위해 최선을 다합니다.</p>
-        
-        <h3>1. 개인정보 수집 및 이용</h3>
-        <p>본 서비스는 이메일 문의 접수 시 외에는 별도의 개인정보를 서버에 저장하지 않습니다. 쿠키는 사용자 설정(테마, 선택 번호 등)을 브라우저에 로컬로 저장하는 용도로만 사용됩니다.</p>
-
-        <h3>2. 서비스 이용 책임</h3>
-        <p>본 서비스에서 제공하는 번호 생성 및 시뮬레이션 결과는 데이터 통계에 근거한 참고용이며, 실제 로또 당첨을 보장하지 않습니다. 과도한 복권 구매는 도박 중독의 위험이 있으니 주의하시기 바랍니다.</p>
-
-        <h3>3. 광고 운영 안내</h3>
-        <p>Lotto Lab은 무료 서비스 운영을 위해 Google AdSense 광고를 게재하며, 구글의 정책을 준수합니다.</p>
-      </article>
-    </div>
+    <!-- Footer for Better Navigation -->
+    <footer class="app-footer">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>서비스 메뉴</h4>
+          <ul>
+            <li><a href="#" class="footer-link" data-tab="generator">번호 생성기</a></li>
+            <li><a href="#" class="footer-link" data-tab="strategy">전략 노트</a></li>
+            <li><a href="#" class="footer-link" data-tab="guide">분석 가이드</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>법적 고지 및 정책</h4>
+          <ul>
+            <li><a href="#" id="openPrivacy">개인정보처리방침</a></li>
+            <li><a href="#" id="openTerms">이용약관</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Lotto Lab. All rights reserved. 본 서비스는 참고용이며 실제 당첨을 보장하지 않습니다.</p>
+      </div>
+    </footer>
   </main>
+
+  <!-- Modal for Policies -->
+  <div id="policyModal" class="modal">
+    <div class="modal-content panel">
+      <span class="close-modal">&times;</span>
+      <div id="modalBody" class="text-content"></div>
+    </div>
+  </div>
 
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
