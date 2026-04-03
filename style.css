@@ -1,1 +1,265 @@
-/* Add styles here */
+:root {
+  --bg: #f6f1e8;
+  --panel: rgba(255, 250, 242, 0.88);
+  --panel-solid: rgba(255, 255, 255, 0.62);
+  --text: #172121;
+  --muted: #5f6b6d;
+  --line: rgba(23, 33, 33, 0.1);
+  --accent: #d95d39;
+  --accent-strong: #a63d24;
+  --shadow: 0 24px 80px rgba(63, 41, 24, 0.15);
+  --button-ghost: rgba(23, 33, 33, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --bg: #0f1418;
+  --panel: rgba(20, 27, 33, 0.84);
+  --panel-solid: rgba(18, 24, 30, 0.92);
+  --text: #f3efe7;
+  --muted: #b3bbb6;
+  --line: rgba(243, 239, 231, 0.12);
+  --accent: #ff8a5b;
+  --accent-strong: #dd5f2d;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  --button-ghost: rgba(243, 239, 231, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(217, 93, 57, 0.22), transparent 28%),
+    radial-gradient(circle at right 10% bottom 10%, rgba(82, 134, 125, 0.14), transparent 25%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, white 12%) 0%, var(--bg) 100%);
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.app-shell {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
+}
+
+.hero {
+  padding: 24px 0 16px;
+}
+
+.hero-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  margin: 0;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.theme-toggle {
+  color: var(--text);
+  background: var(--button-ghost);
+  border: 1px solid var(--line);
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 10ch;
+  margin-bottom: 16px;
+  font-size: clamp(2.8rem, 7vw, 5.8rem);
+  line-height: 0.96;
+}
+
+.hero-copy {
+  max-width: 720px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.panel {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+}
+
+.controls {
+  display: grid;
+  gap: 18px;
+}
+
+.control-row,
+.button-row,
+.section-head {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  flex: 1;
+  min-width: 220px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  font: inherit;
+  color: inherit;
+  background: var(--panel-solid);
+}
+
+button {
+  padding: 14px 20px;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease, opacity 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.primary {
+  color: #fff8f0;
+  border: 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+}
+
+.secondary {
+  color: var(--text);
+  border: 0;
+  background: var(--button-ghost);
+}
+
+.hint,
+.subtle {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.ticket-card,
+.simulation-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 18px;
+  background: var(--panel-solid);
+}
+
+.ticket-title {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.ball-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ball {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #fff;
+}
+
+.band-0 {
+  background: #e7a422;
+}
+
+.band-1 {
+  background: #4381c1;
+}
+
+.band-2 {
+  background: #db5461;
+}
+
+.band-3 {
+  background: #4f6d7a;
+}
+
+.band-4 {
+  background: #3b8f73;
+}
+
+.result-head {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+.error {
+  color: #ffb2a3;
+  background: rgba(217, 93, 57, 0.14);
+  border-color: rgba(255, 138, 91, 0.4);
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    width: min(100% - 20px, 1100px);
+    padding-top: 28px;
+  }
+
+  .panel {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  h1 {
+    max-width: none;
+    font-size: clamp(2.4rem, 12vw, 4rem);
+  }
+
+  .ball {
+    width: 38px;
+    height: 38px;
+  }
+}

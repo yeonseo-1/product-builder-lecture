@@ -1,14 +1,74 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <title>Lotto Lab 6/45</title>
+  <link href="/style.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-topbar">
+        <p class="eyebrow">LOTTO LAB 6/45</p>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 전환">화이트모드</button>
+      </div>
+      <h1>당첨을 보장하진 않지만, 번호 뽑기는 제대로.</h1>
+      <p class="hero-copy">
+        한국 로또 6/45 기준으로 번호를 무작위 생성하고, 제외 번호를 반영하고,
+        간단한 시뮬레이션으로 기대 확률을 확인할 수 있습니다.
+      </p>
+    </section>
+
+    <section class="panel controls">
+      <div class="control-group">
+        <label for="excludedNumbers">제외 번호</label>
+        <input
+          id="excludedNumbers"
+          type="text"
+          inputmode="numeric"
+          placeholder="예: 3, 7, 18"
+        />
+        <p class="hint">쉼표로 구분해서 입력하세요. 1부터 45까지만 허용됩니다.</p>
+      </div>
+
+      <div class="control-row">
+        <div class="control-group">
+          <label for="ticketCount">생성할 조합 수</label>
+          <input id="ticketCount" type="number" min="1" max="10" value="5" />
+        </div>
+
+        <div class="control-group">
+          <label for="simulationCount">시뮬레이션 횟수</label>
+          <input id="simulationCount" type="number" min="100" step="100" value="10000" />
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="generateButton" class="primary" type="button">번호 생성</button>
+        <button id="simulateButton" class="secondary" type="button">확률 시뮬레이션</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>추천 조합</h2>
+        <p id="selectionSummary" class="subtle"></p>
+      </div>
+      <div id="tickets" class="ticket-grid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>시뮬레이션 결과</h2>
+        <p class="subtle">생성된 첫 번째 조합을 기준으로 무작위 추첨과 비교합니다.</p>
+      </div>
+      <div id="simulationResult" class="simulation-card empty">
+        아직 시뮬레이션을 실행하지 않았습니다.
+      </div>
+    </section>
+  </main>
+
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
 </html>
