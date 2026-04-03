@@ -29,6 +29,7 @@
       <button class="tab-button" data-tab="strategy">전략 노트</button>
       <button class="tab-button" data-tab="guide">분석 가이드</button>
       <button class="tab-button" data-tab="comments">커뮤니티</button>
+      <button class="tab-button" data-tab="inquiry">제휴 문의</button>
     </nav>
 
     <!-- Tab Content: Generator -->
@@ -115,6 +116,29 @@
       </section>
     </div>
 
+    <!-- Tab Content: Inquiry -->
+    <div id="inquiry" class="tab-content">
+      <section class="panel">
+        <div class="section-head">
+          <h2>제휴 및 서비스 문의</h2>
+          <p class="subtle">협업 제안 또는 서비스 개선 의견을 보내주세요.</p>
+        </div>
+        <form action="https://formspree.io/f/meeplbor" method="POST" class="contact-form">
+          <div class="control-group">
+            <label for="email">이메일 주소</label>
+            <input type="email" name="email" id="email" placeholder="example@email.com" required>
+          </div>
+          <div class="control-group">
+            <label for="message">문의 내용</label>
+            <textarea name="message" id="message" rows="8" placeholder="상세 내용을 입력해주세요." required></textarea>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary">문의하기</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
     <!-- Footer for Better Navigation -->
     <footer class="app-footer">
       <div class="footer-grid">
@@ -124,6 +148,7 @@
             <li><a href="#" class="footer-link" data-tab="generator">번호 생성기</a></li>
             <li><a href="#" class="footer-link" data-tab="strategy">전략 노트</a></li>
             <li><a href="#" class="footer-link" data-tab="guide">분석 가이드</a></li>
+            <li><a href="#" class="footer-link" data-tab="inquiry">제휴 문의</a></li>
           </ul>
         </div>
         <div class="footer-section">
