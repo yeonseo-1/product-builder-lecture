@@ -38,6 +38,15 @@ function applyTheme(theme) {
   } else {
     themeToggleButton.textContent = '다크모드';
   }
+
+  // Force Disqus to reload its theme
+  if (typeof DISQUS !== 'undefined') {
+    setTimeout(function() {
+      DISQUS.reset({
+        reload: true
+      });
+    }, 350);
+  }
 }
 
 function initializeTheme() {
