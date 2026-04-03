@@ -262,6 +262,28 @@ h1 {
   color: var(--text);
 }
 
+.ad-slot {
+  margin: 32px 0;
+  padding: 12px;
+  background: var(--button-ghost);
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ad-hint {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
