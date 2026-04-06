@@ -13,6 +13,27 @@ var themeToggleButton = document.querySelector('#themeToggle');
 var ticketsElement = document.querySelector('#tickets');
 var simulationResultElement = document.querySelector('#simulationResult');
 
+
+var disqusThread = document.querySelector('#disqus_thread');
+var disqusLoaded = false;
+
+function loadDisqus() {
+  if (!disqusThread || disqusLoaded) return;
+
+  window.disqus_config = function() {
+    this.page.url = window.location.origin + window.location.pathname;
+    this.page.identifier = 'lotto-lab-inquiry';
+  };
+
+  var shortname = disqusThread.getAttribute('data-disqus-shortname');
+  if (!shortname) return;
+
+  var script = document.createElement('script');
+  script.src = 'https://' + shortname + '.disqus.com/embed.js';
+  script.setAttribute('data-timestamp', String(Date.now()));
+  (document.head || document.body).appendChild(script);
+  disqusLoaded = true;
+}
 var currentTickets = [];
 
 // Tab Logic
@@ -21,6 +42,7 @@ var tabContents = document.querySelectorAll('.tab-content');
 var footerLinks = document.querySelectorAll('.footer-link');
 
 function switchTab(tabId) {
+  if (tabId === 'inquiry') loadDisqus();
   tabButtons.forEach(function(btn) {
     btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
   });
@@ -47,12 +69,46 @@ footerLinks.forEach(function(link) {
 var strategyNote = document.querySelector('#strategyNote');
 var saveNoteButton = document.querySelector('#saveNoteButton');
 var saveStatus = document.querySelector('#saveStatus');
+var contactForm = document.querySelector('#contactForm');
+var contactStatus = document.querySelector('#contactStatus');
+var contactSubmitButton = document.querySelector('#contactSubmitButton');
 
 saveNoteButton.addEventListener('click', function() {
   localStorage.setItem(NOTE_STORAGE_KEY, strategyNote.value);
   saveStatus.style.display = 'inline';
   setTimeout(function() { saveStatus.style.display = 'none'; }, 2000);
 });
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    var formData = new FormData(contactForm);
+    contactStatus.textContent = '전송 중...';
+    contactSubmitButton.disabled = true;
+
+    try {
+      var response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
+      contactForm.reset();
+      contactStatus.textContent = '문의가 전송되었습니다. 메일함과 스팸함을 확인해주세요.';
+    } catch (error) {
+      contactStatus.textContent = '전송에 실패했습니다. Formspree 설정 또는 네트워크를 확인해주세요.';
+    } finally {
+      contactSubmitButton.disabled = false;
+    }
+  });
+}
 
 strategyNote.value = localStorage.getItem(NOTE_STORAGE_KEY) || '';
 

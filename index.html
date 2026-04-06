@@ -152,34 +152,24 @@
             <h2>커뮤니티 및 문의</h2>
             <p class="subtle">자유로운 소통과 제휴 문의를 환영합니다.</p>
           </div>
-          <div id="disqus_thread" style="margin-bottom: 30px;"></div>
-          <script>
-              var disqus_config = function () {
-                  this.page.url = window.location.href;
-                  this.page.identifier = window.location.pathname;
-              };
-              (function() {
-              var d = document, s = d.createElement('script');
-              s.src = 'https://yeon-2.disqus.com/embed.js';
-              s.setAttribute('data-timestamp', +new Date());
-              (d.head || d.body).appendChild(s);
-              })();
-          </script>
+          <div id="disqus_thread" data-disqus-shortname="yeon-2" style="margin-bottom: 30px;"></div>
 
           <hr style="border: 0; border-top: 1px solid var(--line); margin: 40px 0;">
 
           <h3>1:1 제휴 문의</h3>
-          <form action="https://formspree.io/f/meeplbor" method="POST" class="contact-form">
+          <form action="https://formspree.io/f/meeplbor" method="POST" class="contact-form" id="contactForm">
+            <input type="hidden" name="_subject" value="Lotto Lab 제휴 문의">
             <div class="control-group">
               <label for="email">이메일 주소</label>
-              <input type="email" name="email" id="email" placeholder="example@email.com" required>
+              <input type="email" name="email" id="email" autocomplete="email" placeholder="example@email.com" required>
             </div>
             <div class="control-group">
               <label for="message">문의 상세 내용</label>
               <textarea name="message" id="message" rows="5" placeholder="협업 제안 등을 입력해주세요." required></textarea>
             </div>
             <div class="button-row">
-              <button type="submit" class="primary">문의 보내기</button>
+              <button type="submit" class="primary" id="contactSubmitButton">문의 보내기</button>
+              <span id="contactStatus" class="subtle" aria-live="polite"></span>
             </div>
           </form>
         </section>
